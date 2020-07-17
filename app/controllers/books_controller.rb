@@ -1,19 +1,33 @@
 class BooksController < ApplicationController
 
   def show
+    # book show
     @book = Book.find(params[:id])
+    # user info
+    @user = @book.user
+    # new book からのオブジェクトが欲しい
+    @book_newbook = Book.new
   end
 
   def index
+    # user info はvireで生成している
+    #books index
     @books = Book.all
+    # new book
+    @book = Book.new
   end
 
   def create
-    @book = Book.new(book_params)
-    if @book.save
-      redirect_to book_path(@book), notice: "You have created book successfully."
+    book = Book.new(book_params)
+    # 注意
+    book.user_id = current_user.id
+    if book.save
+      redirect_to book_path(book.id), notice: "You have created book successfully."
     else
+      #books index
       @books = Book.all
+      # new book
+      @book = Book.new
       render 'index'
     end
   end

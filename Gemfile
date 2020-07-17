@@ -55,7 +55,8 @@ end
 
 group :test do
   gem 'capybara', '>= 2.15'
-  gem 'rspec-rails'
+  # gem 'rspec-rails'
+  gem 'rspec-rails', git: 'https://github.com/rspec/rspec-rails.git', tag: 'v4.0.0.beta3'
   gem "factory_bot_rails"
   gem 'faker'
 end
@@ -65,4 +66,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'devise'
 gem 'refile', require: 'refile/rails', github: 'manfe/refile'
 gem 'refile-mini_magick'
+gem 'bootstrap-sass', '~> 3.3.6'
 gem 'jquery-rails'

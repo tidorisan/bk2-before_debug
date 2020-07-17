@@ -26,8 +26,10 @@
             <% else %>
               <li><%= link_to ' home', root_path, class: 'glyphicon glyphicon-home home' %></li>
               <li><%= link_to ' about', home_about_path, class: 'glyphicon glyphicon-link about' %></li>
-              <li><%= link_to ' signup', new_user_registration_path, class: 'glyphicon glyphicon-edit sign_up' %></li>
-              <li><%= link_to ' log in', new_user_session_path, class: 'glyphicon glyphicon-log-in sign_in' %></li>
+              <!-- error原因らしいわからない -->
+              <li><%= link_to "  Sign up",  new_user_registration_path, class: "glyphicon glyphicon-edit"  %></li>
+              <!--  -->
+              <li><%= link_to ' login', new_user_session_path, class: 'glyphicon glyphicon-log-in sign_in' %></li>
             <% end %>
           </ul>
         </nav>
@@ -39,8 +41,10 @@
       <p id="notice"><%= notice %></p>
 
     </div>
-
-    <footer>
+    <!--画面にheader footer 以外表示されない原因　 -->
+    <%= yield %>
+  </body>
+  <footer>
       <div class="container">
         <div class="row">
           <div class="col-xs-3 col-xs-offset-9">
@@ -49,5 +53,4 @@
         </div>
       </div>
     </footer>
-  </body>
 </html>
