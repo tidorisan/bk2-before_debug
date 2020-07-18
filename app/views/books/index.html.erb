@@ -1,3 +1,14 @@
+<!-- error message  book_create -->
+<% if @book.errors.any? %>
+	<%= @book.errors.count %>errors prohibited this book from being saved:
+	<% @book.errors.full_messages.each do |message| %>
+		<ul>
+			<li><%= message %></li>
+		</ul>
+	<% end %>
+<% end %>
+
+
 <div class="container">
 	<div class="row">
 		<div class="col-xs-3">

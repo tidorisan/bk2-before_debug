@@ -55,8 +55,8 @@ end
 
 group :test do
   gem 'capybara', '>= 2.15'
-  # gem 'rspec-rails'
-  gem 'rspec-rails', git: 'https://github.com/rspec/rspec-rails.git', tag: 'v4.0.0.beta3'
+  gem 'rspec-rails'
+  # gem 'rspec-rails', git: 'https://github.com/rspec/rspec-rails.git', tag: 'v4.0.0.beta3'
   gem "factory_bot_rails"
   gem 'faker'
 end

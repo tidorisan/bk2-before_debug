@@ -1,4 +1,5 @@
 class BooksController < ApplicationController
+  before_action :authenticate_user!
 
   def show
     # book show
@@ -15,27 +16,30 @@ class BooksController < ApplicationController
     @books = Book.all
     # new book
     @book = Book.new
+    # @user = current_user 効果ないので元に戻す
   end
 
   def create
-    book = Book.new(book_params)
+    @book = Book.new(book_params)
     # 注意
-    book.user_id = current_user.id
-    if book.save
-      redirect_to book_path(book.id), notice: "You have created book successfully."
+    @book.user_id = current_user.id
+    if @book.save
+      redirect_to book_path(@book.id), notice: "You have created book successfully."
     else
       #books index
       @books = Book.all
       # new book
-      @book = Book.new
+      # @book = Book.new
       render 'index'
     end
   end
 
   def edit
     @book = Book.find(params[:id])
+    if current_user != @book.user
+      redirect_to books_path
+    end
   end
-
 
 
   def update
@@ -56,7 +60,7 @@ class BooksController < ApplicationController
   private
 
   def book_params
-    params.require(:book).permit(:title)
+    params.require(:book).permit(:title, :body)
   end
 
 end
