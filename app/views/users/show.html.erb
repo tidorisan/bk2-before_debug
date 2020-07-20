@@ -31,6 +31,8 @@
 						</td>
 						<td><%= link_to book.title, book_path(book), class: "book_#{book.id}" %></td>
 						<td><%= book.body %></td>
+						<!-- コメント件数 -->
+						<td>コメント数: <%= @user.book_comments.count %></td>
 					</tr>
 					<% end %>
 				</tbody>

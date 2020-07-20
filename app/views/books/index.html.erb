@@ -44,6 +44,28 @@
 						</td>
 						<td><%= link_to book.title, book_path(book), class: "book_#{book.id}" %></td>
 						<td><%= book.body %></td>
+						<!-- いいね  いいねに自分が含まれているいないで考える-->
+						<td>
+							<% if book.favorited_by?(current_user) %>
+								<%= link_to book_favorites_path(book), method: :delete do %>
+									<!-- boostrap ハートマークを表示させる -->
+									<span class="glyphicon glyphicon-heart" aria-hidden="true">
+										<%= book.favorites.count %>
+									</span>
+								 	<!-- <i class="fa fa-heart" aria-hidden="true" style="color: red;"></i> -->
+								<% end %>
+							<% else %>
+								<%= link_to book_favorites_path(book), method: :post do %>
+									<span class="glyphicon glyphicon-heart-empty" aria-hidden="true">
+										<%= book.favorites.count %>
+									</span>
+									 <!-- <i class="fa fa-heart" aria-hidden="true" style="color: red;"></i> -->
+
+								<% end %>
+							<% end %>
+						</td>
+						<!-- ここまでいいね -->
+						<td>コメント数:<%= book.book_comments.count %></td>
 					</tr>
 					<% end %>
 				</tbody>

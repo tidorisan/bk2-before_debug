@@ -1,4 +1,5 @@
 class BooksController < ApplicationController
+  # booksでの表示も全てログインしている状態のみに制限する
   before_action :authenticate_user!
 
   def show
@@ -8,6 +9,10 @@ class BooksController < ApplicationController
     @user = @book.user
     # new book からのオブジェクトが欲しい
     @book_newbook = Book.new
+    # book_coment のフォーム
+    @book_comment = BookComment.new
+    # book commentの一覧 index
+    @book_comments = @book.book_comments.all
   end
 
   def index
@@ -16,7 +21,8 @@ class BooksController < ApplicationController
     @books = Book.all
     # new book
     @book = Book.new
-    # @user = current_user 効果ないので元に戻す
+    # user = current_user 効果ないので元に戻す
+
   end
 
   def create

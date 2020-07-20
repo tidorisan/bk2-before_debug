@@ -1,3 +1,12 @@
+<!-- erroe Message -->
+<% if @book_comment.errors.any? %>
+	<% @book_comment.errors.full_messages.each do |message| %>
+		<ul>
+			<li><%= message %></li>
+		</ul>
+	<% end %>
+<%  end %>
+
  <div class="container">
 	<div class="row">
 		<div class="col-xs-3">
@@ -18,21 +27,79 @@
 			<table class="table">
 					<tr>
 						<td>
+							<!-- 画像 -->
 							<%= link_to user_path(@book.user) do %>
 								<%= attachment_image_tag(@book.user, :profile_image, :fill, 100, 100, fallback: "no-image-mini.jpg") %><br>
+								<!--　名前 -->
 							<%= @book.user.name %>
 							<% end %>
 						</td>
+						<!--book　タイトル  -->
 						<td><%= link_to @book.title, book_path(@book) %></td>
+						<!-- book body -->
 						<td><%= @book.body %></td>
-						<!-- 投稿者のみがボタン表示 -->
+
+						<td>
+								<!-- いいね機能 -->
+								<% if @book.favorited_by?(current_user) %>
+									<%= link_to book_favorites_path(@book), method: :delete do %>
+										<!-- boostrap ハートマーク表示 -->
+								 		<span class="glyphicon glyphicon-heart" aria-hidden="true">
+								 			<%= @book.favorites.count %>
+								 		</span>
+								 		<!-- ここまで -->
+									<% end %>
+								<% else %>
+									<%= link_to book_favorites_path(@book), method: :post do %>
+									 	<!-- boostra@ ハートマーク表示 -->
+									 	<span class="glyphicon glyphicon-heart-empty" aria-hidden="true">
+									 		<%= @book.favorites.count %>
+									 	</span>
+									<% end %>
+								<% end %>
+								<!-- いいね機能 -->
+						</td>
+
+						<!-- 投稿者のみがボタン表示 編集　悪女  -->
 						<% if current_user.id == @book.user_id %>
 							<td><%= link_to "Edit", edit_book_path(@book), class: "btn-sm btn-success edit_book_#{@book.id}" %></td>
 							<td><%= link_to "Destroy", book_path(@book), method: :delete, data: {confirm: "本当に削除してもよろしいですか？"}, class: "btn-sm btn-danger destroy_book_#{@book.id}" %></td>
 						<% end %>
-						
 					</tr>
+					<!-- 投稿されたcommentを全て表示するindex  -->
+					<!-- なぜか表示されない -->
+					<!-- eachの範囲内コントローラから受け取った他の値使用できる -->
+					<!-- 投稿されたコメントを全て表示するためindex -->
+					<% @book.book_comments.each do |book_comment| %>
+						<tr>
+							<td>
+								<%= link_to user_path(@book.user) do %>
+									<%= attachment_image_tag(@book.user, :profile_image, :fill, 100, 100, fallback: "no-image-mini.jpg") %>
+									<br>
+									<%= book_comment.user.name %>
+								<% end %>
+							</td>
+							<td>
+								<%= book_comment.comment %>
+
+								<!-- 投稿者のみが削除できる -->
+								<% if current_user.id == book_comment.user_id %>
+									<%= link_to "Destroy", book_book_comment_path(book_comment.book, book_comment), method: :delete, class: "btn-sm btn-danger destroy_book_#{book_comment.id}" %>
+								<% end %>
+							</td>
+						</tr>
+					<% end %>
 			</table>
+			<!-- comment フォーム -->
+							<div>
+								<!-- 注意　メンターさんに質問した場所 -->
+								<!-- form_forで指定しているので<c.submit でurlしていない> -->
+								<%= form_with model: @book_comment, url: book_book_comments_path(@book), local: true do |c| %>
+									<%= c.text_area :comment, class: "col-xs-9"  %><br>
+									<!-- ここ原因 アクションから渡ってくる値が3になっている -->
+         							<%= c.submit "Create Comment", method: :post %>
+         						<% end %>
+							</div>
 
 		</div>
 	</div>
