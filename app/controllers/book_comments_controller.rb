@@ -7,16 +7,28 @@ class BookCommentsController < ApplicationController
 		# book_comment controlerだが別に他のモデルを使うこともできる
 		@book = Book.find(params[:book_id])
 		# コメントを受け取る
-		@book_comment = BookComment.new(book_comment_params)
+		@book_newbook = BookComment.new(book_comment_params)
 		# user_id
-		@book_comment.user_id = current_user.id
+		@book_newbook.user_id = current_user.id
 		# showページなのえid 一つ持ってきている
-		@book_comment.book_id = @book.id
+		@book_newbook.book_id = @book.id
 		# error
-		if @book_comment.save
+		if @book_newbook.save
 				redirect_to request.referer
 		else
-				render "book/show"
+				# book showページ表示のためのインスタンス変数
+				#  bookd/showページでエラーを表示されるためにエラーを受けった値そのまま持っていく
+    			# @book = Book.find(params[:id])
+    			# user info
+    			@user = @book.user
+    			# new book からのオブジェクトが欲しい
+    			@book_newbook = Book.new
+    			# book_coment のフォーム
+    			# @book_comment_new = BookComment.new
+    			#  book commentの一覧 index
+    			@book_comments = @book.book_comments.all
+    			# レンダーメソッド フォルダの階層を書くので被災間違え注意する
+				render "books/show"
 		end
 	end
 

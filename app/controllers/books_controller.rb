@@ -10,7 +10,7 @@ class BooksController < ApplicationController
     # new book からのオブジェクトが欲しい
     @book_newbook = Book.new
     # book_coment のフォーム
-    @book_comment = BookComment.new
+    @book_comment_new = BookComment.new
     # book commentの一覧 index
     @book_comments = @book.book_comments.all
   end

@@ -1,6 +1,6 @@
 <!-- erroe Message -->
-<% if @book_comment.errors.any? %>
-	<% @book_comment.errors.full_messages.each do |message| %>
+<% if @book_newbook.errors.any? %>
+	<% @book_newbook.errors.full_messages.each do |message| %>
 		<ul>
 			<li><%= message %></li>
 		</ul>
@@ -59,12 +59,14 @@
 								<% end %>
 								<!-- いいね機能 -->
 						</td>
-
-						<!-- 投稿者のみがボタン表示 編集　悪女  -->
-						<% if current_user.id == @book.user_id %>
-							<td><%= link_to "Edit", edit_book_path(@book), class: "btn-sm btn-success edit_book_#{@book.id}" %></td>
-							<td><%= link_to "Destroy", book_path(@book), method: :delete, data: {confirm: "本当に削除してもよろしいですか？"}, class: "btn-sm btn-danger destroy_book_#{@book.id}" %></td>
-						<% end %>
+						<td>コメント数:<%= @book.book_comments.count %></td>
+						<td>
+							<!-- 投稿者のみがボタン表示 編集  -->
+							<% if current_user.id == @book.user_id %>
+								<td><%= link_to "Edit", edit_book_path(@book), class: "btn-sm btn-success edit_book_#{@book.id}" %></td>
+								<td><%= link_to "Destroy", book_path(@book), method: :delete, data: {confirm: "本当に削除してもよろしいですか？"}, class: "btn-sm btn-danger destroy_book_#{@book.id}" %></td>
+							<% end %>
+						</td>
 					</tr>
 					<!-- 投稿されたcommentを全て表示するindex  -->
 					<!-- なぜか表示されない -->
@@ -94,7 +96,7 @@
 							<div>
 								<!-- 注意　メンターさんに質問した場所 -->
 								<!-- form_forで指定しているので<c.submit でurlしていない> -->
-								<%= form_with model: @book_comment, url: book_book_comments_path(@book), local: true do |c| %>
+								<%= form_with model: @book_comment_new, url: book_book_comments_path(@book), local: true do |c| %>
 									<%= c.text_area :comment, class: "col-xs-9"  %><br>
 									<!-- ここ原因 アクションから渡ってくる値が3になっている -->
          							<%= c.submit "Create Comment", method: :post %>
